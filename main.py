@@ -2,17 +2,23 @@ def main():
   book_path = "books/frankenstein.txt"
   text = get_book_text(book_path)
   num_words = get_num_words(text)
-  lower_text= get_num_letters(text)
+  char_dict = get_num_letters(text)
+  char_sort = get_char_sort(char_dict)
+  
+  print(f"--- Begin report of {book_path} ---")
   print(f"{num_words} words found in the document")
-  print(f"{lower_text}")
-
-def get_num_words(text):
-  words = text.split()
-  return len(words)
+  print()
+  for key in char_sort:
+    print(f"The '{key}' character was found {char_sort[key]} times")
+  print("--- End report ---")
 
 def get_book_text(path):
   with open(path) as f:
     return f.read()
+
+def get_num_words(text):
+  words = text.split()
+  return len(words)
   
 def get_num_letters(text):
   chars = {}
@@ -24,6 +30,13 @@ def get_num_letters(text):
       chars[lowered] = 1
   return chars
 
-
-
+def get_char_sort(char_dict):
+  sorted_chars = dict(sorted(char_dict.items()))
+  key = ''
+  value = ''
+  
+  for key in list(sorted_chars):
+    if key.isalpha() != True:
+      sorted_chars.pop(key)
+  return sorted_chars
 main()
